@@ -151,6 +151,12 @@ func TestParseReversePathUnicode(t *testing.T) {
 		t.Error("error expected ", err)
 	}
 
+	s = NewParserUTF([]rune("<LéaAubertnu@rcample.com>"))
+	err = s.reversePath()
+	if err != nil {
+		t.Error("error not expected ", err)
+	}
+
 	s = NewParserUTF([]rune("<@ghg;$7@65"))
 	err = s.reversePath()
 	if err == nil {
