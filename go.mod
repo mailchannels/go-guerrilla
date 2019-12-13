@@ -1,6 +1,6 @@
 module github.com/mailchannels/go-guerrilla
 
-replace github.com/flashmob/go-guerilla => /mailchannels/go-guerilla
+replace github.com/flashmob/go-guerrilla => github.com/mailchannels/go-guerrilla v1.6.3
 
 require (
 	github.com/asaskevich/EventBus v0.0.0-20180103000110-68a521d7cbbb
