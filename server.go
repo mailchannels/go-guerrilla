@@ -18,8 +18,8 @@ import (
 	"github.com/flashmob/go-guerrilla/backends"
 	"github.com/flashmob/go-guerrilla/log"
 	"github.com/flashmob/go-guerrilla/mail"
-	"github.com/flashmob/go-guerrilla/mail/rfc5321"
 	"github.com/flashmob/go-guerrilla/response"
+	"github.com/mailchannels/go-guerrilla/mail/rfc5321"
 )
 
 const (
@@ -466,7 +466,7 @@ func (s *server) handleClient(client *client) {
 					client.sendResponse(r.FailNestedMailCmd)
 					break
 				}
-				client.MailFrom, err = client.parsePath([]byte(input[10:]), client.parser.MailFrom)
+				client.MailFrom, err = client.parsePath(bytesToRunes(input[10:]), client.parser.MailFrom)
 				if err != nil {
 					s.log().WithError(err).Error("MAIL parse error", "["+string(input[10:])+"]")
 					client.sendResponse(err)
@@ -482,7 +482,7 @@ func (s *server) handleClient(client *client) {
 					client.sendResponse(r.ErrorTooManyRecipients)
 					break
 				}
-				to, err := client.parsePath([]byte(input[8:]), client.parser.RcptTo)
+				to, err := client.parsePath(bytesToRunes(input[8:]), client.parser.RcptTo)
 				if err != nil {
 					s.log().WithError(err).Error("RCPT parse error", "["+string(input[8:])+"]")
 					client.sendResponse(err.Error())
@@ -634,4 +634,10 @@ func (s *server) mainlog() log.Logger {
 		s.mainlogStore.Store(l)
 	}
 	return l
+}
+
+func bytesToRunes(byteArr []byte) []rune {
+	byteToString := string(byteArr)
+	fmt.Println(byteToString)
+	return []rune(byteToString)
 }
