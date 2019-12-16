@@ -4,3 +4,5 @@ goguerrilla.conf.json
 /guerrillad
 vendor
 go-guerrilla.wiki
+
+.vscode
