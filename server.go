@@ -645,8 +645,6 @@ func (s *server) loadLog(value *atomic.Value) log.Logger {
 
 func (s *server) bytesToRunes(byteArr []byte) []rune {
 	byteToString := string(byteArr)
-	s.log().Infoln(byteToString)
 	runes := []rune(byteToString)
-	s.log().Infof("%U\n", runes)
 	return runes
 }
