@@ -467,7 +467,7 @@ func (s *server) handleClient(client *client) {
 					client.sendResponse(r.FailNestedMailCmd)
 					break
 				}
-				client.MailFrom, err = client.parsePath(input[10:], client.parser.MailFrom)
+				client.MailFrom, err = client.parsePath(s.bytesToRunes(input[10:]), client.parser.MailFrom)
 				if err != nil {
 					s.log().WithError(err).Error("MAIL parse error", "["+string(input[10:])+"]")
 					client.sendResponse(err)
@@ -483,7 +483,7 @@ func (s *server) handleClient(client *client) {
 					client.sendResponse(r.ErrorTooManyRecipients)
 					break
 				}
-				to, err := client.parsePath(input[8:], client.parser.RcptTo)
+				to, err := client.parsePath(s.bytesToRunes(input[8:]), client.parser.RcptTo)
 				if err != nil {
 					s.log().WithError(err).Error("RCPT parse error", "["+string(input[8:])+"]")
 					client.sendResponse(err.Error())
@@ -641,4 +641,10 @@ func (s *server) loadLog(value *atomic.Value) log.Logger {
 		value.Store(l)
 	}
 	return l
+}
+
+func (s *server) bytesToRunes(byteArr []byte) []rune {
+	byteToString := string(byteArr)
+	runes := []rune(byteToString)
+	return runes
 }

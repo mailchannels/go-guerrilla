@@ -53,7 +53,7 @@ type client struct {
 	// guards access to conn
 	connGuard sync.Mutex
 	log       log.Logger
-	parser    rfc5321.Parser
+	parser    rfc5321.ParserUTF
 }
 
 // NewClient allocates a new client.
@@ -206,9 +206,9 @@ func getRemoteAddr(conn net.Conn) string {
 	}
 }
 
-type pathParser func([]byte) error
+type pathParser func([]rune) error
 
-func (c *client) parsePath(in []byte, p pathParser) (mail.Address, error) {
+func (c *client) parsePath(in []rune, p pathParser) (mail.Address, error) {
 	address := mail.Address{}
 	var err error
 	if len(in) > rfc5321.LimitPath {
